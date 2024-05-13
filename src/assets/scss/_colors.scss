@@ -1,0 +1,56 @@
+// Base Colors
+$color-white: #ffffff; 
+$color-light-grey: lighten(#FAA61A, 45%); 
+$color-mid-grey: mix(#FAA61A, #5B2D8F, 50%);
+$color-dark-grey: darken(#5B2D8F, 20%); 
+$color-black: #000000; 
+
+// Red Steps (now Golden Steps)
+$color-red-step1: lighten(#5B2D8F, 5%); 
+$color-red-step2: #5B2D8F; 
+$color-red-step3: darken(#5B2D8F, 5%);
+$color-red-step4: darken(#5B2D8F, 10%);
+$color-red-step5: darken(#5B2D8F, 15%); 
+
+$color-yellow: lighten(#ac720d, 20%);
+$color-blood-orange: mix(#FAA61A, #e54c23, 30%);
+
+// Purple Accent (additional for flexibility)
+$color-purple-accent: lighten(#5B2D8F, 15%); 
+
+$color-shadow: rgba($color-black, 0.2);
+
+// body
+$color-text-light: $color-white;
+$color-text-dark: $color-black;
+$color-link: rgba($color-white, 0.8);
+$color-link-hover: rgba($color-white, 0.9);
+
+// title
+$color-title-border: $color-yellow;
+
+// button
+$color-button-text: $color-white;
+$color-button-default-background: $color-yellow;
+$color-button-default-hover-background: lighten($color-yellow, 5%);
+$color-button-danger-background: $color-blood-orange;
+$color-button-danger-hover-background: lighten($color-blood-orange, 5%);
+
+// slot
+$color-slot-background: $color-yellow;
+$color-slot-shadow: $color-shadow;
+$color-slot-inner-background: $color-white;
+$color-slot-text: $color-black;
+
+// settings
+$color-settings-mask: rgba($color-black, 0.6);
+$color-settings-background: darken($color-red-step5, 8%);
+
+// textarea
+$color-input-background: $color-light-grey;
+$color-input-placeholder: $color-mid-grey;
+$color-input-text: $color-black;
+
+// switch
+$color-switch-handle-disabled: $color-dark-grey;
+$color-switch-handle: darken($color-red-step5, 8%);
