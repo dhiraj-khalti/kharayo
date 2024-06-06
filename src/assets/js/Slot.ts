@@ -153,15 +153,15 @@ export default class Slot {
 
   private static shuffleNames<T = unknown>(array: T[]): T[] {
     // Check if the array has at least 30 items
-    if (array.length < 30) {
-      throw new Error("Array must have at least 30 items.");
+    if (array.length < 7) {
+      throw new Error("Array must have at least 7 items.");
     }
     
     // Isolate the 30th element
-    const elementToPlaceLast = array[29];  // The 30th item, index 29
+    const elementToPlaceLast = array[6];  // The 30th item, index 29
   
     // Remove the 30th item from its original position
-    array.splice(29, 1);  
+    array.splice(6, 1);  
   
     // Shuffle the remaining array
     let n = array.length; // Updated array length after removing one element
