@@ -53,7 +53,7 @@ export default class Slot {
    */
   constructor(
     {
-      maxReelItems = 30,
+      maxReelItems = 5,
       removeWinner = true,
       reelContainerSelector,
       onSpinStart,
