@@ -53,7 +53,7 @@ export default class Slot {
    */
   constructor(
     {
-      maxReelItems = 7,
+      maxReelItems = 2,
       removeWinner = true,
       reelContainerSelector,
       onSpinStart,
@@ -153,15 +153,15 @@ export default class Slot {
 
   private static shuffleNames<T = unknown>(array: T[]): T[] {
     // Check if the array has at least 30 items
-    if (array.length < 7) {
-      throw new Error("Array must have at least 7 items.");
+    if (array.length < 1) {
+      throw new Error("Array must have at least 1 item.");
     }
     
     // Isolate the 30th element
-    const elementToPlaceLast = array[6];  // The 30th item, index 29
+    const elementToPlaceLast = array[2];  // The 30th item, index 29
   
     // Remove the 30th item from its original position
-    array.splice(6, 1);  
+    array.splice(2, 1);  
   
     // Shuffle the remaining array
     let n = array.length; // Updated array length after removing one element
