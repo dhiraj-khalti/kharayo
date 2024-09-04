@@ -16,6 +16,10 @@ import SoundEffects from '@js/SoundEffects';
   const nameListTextArea = document.getElementById('name-list') as HTMLTextAreaElement | null;
   const removeNameFromListCheckbox = document.getElementById('remove-from-list') as HTMLInputElement | null;
   const enableSoundCheckbox = document.getElementById('enable-sound') as HTMLInputElement | null;
+  const backgroundImageInput = document.getElementById('background-image') as HTMLInputElement | null;
+  const titleImageInput = document.getElementById('title-image') as HTMLInputElement | null;
+  const removeBackgroundImageButton = document.getElementById('remove-background-image') as HTMLButtonElement | null;
+  const removeTitleImageButton = document.getElementById('remove-title-image') as HTMLButtonElement | null;
 
   // Graceful exit if necessary elements are not found
   if (!(
@@ -31,6 +35,10 @@ import SoundEffects from '@js/SoundEffects';
     && nameListTextArea
     && removeNameFromListCheckbox
     && enableSoundCheckbox
+    && backgroundImageInput
+    && titleImageInput
+    && removeBackgroundImageButton
+    && removeTitleImageButton
   )) {
     console.error('One or more Element ID is invalid. This is possibly a bug.');
     return;
@@ -51,6 +59,171 @@ import SoundEffects from '@js/SoundEffects';
     resize: true,
     useWorker: true
   });
+
+  /** Apply background image from localStorage */
+  const applyBackgroundImage = () => {
+    const storedImage = localStorage.getItem('background-image');
+
+    if (storedImage) {
+      document.body.style.backgroundImage = `url(${storedImage})`;
+      document.body.style.backgroundSize = 'cover'; // Ensure the image covers the area
+      document.body.style.backgroundPosition = 'center'; // Center the image
+      document.body.style.backgroundRepeat = 'no-repeat'; // Prevent repeating the image
+    }
+  };
+  // Run applyBackgroundImage on page load
+  document.addEventListener('DOMContentLoaded', () => {
+    applyBackgroundImage();
+  });
+
+  /** Apply title image from localStorage */
+  const applyTitleImage = () => {
+    const storedTitleImage = localStorage.getItem('title-image');
+
+    // Select the .title element and cast it to HTMLElement
+    const titleDiv = document.querySelector('.title') as HTMLElement;
+
+    if (storedTitleImage && titleDiv) {
+      titleDiv.style.backgroundImage = `url(${storedTitleImage})`;
+      titleDiv.style.backgroundPosition = 'center'; // Center the image
+      titleDiv.style.backgroundRepeat = 'no-repeat'; // Prevent repeating the image
+    }
+  };
+
+  // Run applyTitleImage on page load
+  document.addEventListener('DOMContentLoaded', () => {
+    applyTitleImage();
+  });
+
+  /** Handle background image upload */
+  if (backgroundImageInput) {
+    backgroundImageInput.addEventListener('change', (event: Event) => {
+      const target = event.target as HTMLInputElement;
+      const file = target.files ? target.files[0] : null;
+
+      if (file) {
+        const reader = new FileReader();
+
+        reader.onload = (e: ProgressEvent<FileReader>) => {
+          const img = new Image();
+
+          img.onload = () => {
+          // Create a canvas to keep the original image size
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+
+            if (ctx) {
+            // Set canvas dimensions to the image's natural dimensions
+              canvas.width = img.naturalWidth;
+              canvas.height = img.naturalHeight;
+
+              // Draw the image onto the canvas
+              ctx.drawImage(img, 0, 0);
+
+              // Get the base64 image data
+              const base64Image = canvas.toDataURL('image/png', 1); // Use maximum quality (1)
+
+              // Store in localStorage
+              try {
+                localStorage.setItem('background-image', base64Image);
+                console.log('Image stored in localStorage');
+                applyBackgroundImage(); // Apply the background image immediately
+              } catch (error) {
+                console.log(error);
+              }
+            }
+          };
+
+          img.src = e.target?.result as string;
+        };
+
+        reader.readAsDataURL(file);
+      }
+    });
+  }
+
+  const removeBackgroundImage = () => {
+    try {
+    // Remove the image from localStorage
+      localStorage.removeItem('background-image');
+      console.log('Background image removed from localStorage');
+
+      // Remove the background image from the body element
+      document.body.style.backgroundImage = 'none'; // Clear the background image
+      document.body.style.background = ''; // Clear any other background settings
+    } catch (error) {
+      console.error('Failed to remove background image from localStorage', error);
+    }
+  };
+  // Call the function to remove the background image key
+
+  // Click handler for "Remove Background Image" button for setting page
+  removeBackgroundImageButton.addEventListener('click', removeBackgroundImage);
+
+  /** Handle title image upload */
+  if (titleImageInput) {
+    titleImageInput.addEventListener('change', (event: Event) => {
+      const target = event.target as HTMLInputElement;
+      const file = target.files ? target.files[0] : null;
+
+      if (file) {
+        const reader = new FileReader();
+
+        reader.onload = (e: ProgressEvent<FileReader>) => {
+          const img = new Image();
+
+          img.onload = () => {
+          // Create a canvas to keep the original image size
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+
+            if (ctx) {
+            // Set canvas dimensions to the image's natural dimensions
+              canvas.width = img.naturalWidth;
+              canvas.height = img.naturalHeight;
+
+              // Draw the image onto the canvas
+              ctx.drawImage(img, 0, 0);
+
+              // Get the base64 image data
+              const base64Image = canvas.toDataURL('image/png', 1); // Use maximum quality (1)
+
+              // Store in localStorage
+              try {
+                localStorage.setItem('title-image', base64Image);
+                console.log('Image stored in localStorage');
+                applyTitleImage(); // Apply the background image immediately
+              } catch (err) {
+                console.error('Failed to store image in localStorage', err);
+              }
+            }
+          };
+
+          img.src = e.target?.result as string;
+        };
+
+        reader.readAsDataURL(file);
+      }
+    });
+  }
+
+  const removeTitleImage = () => {
+    try {
+      localStorage.removeItem('title-image');
+      console.log('Title image key removed from localStorage');
+
+      // Optionally, update the UI to reflect the change
+      const titleDiv = document.querySelector('.title') as HTMLElement;
+      if (titleDiv) {
+        titleDiv.style.backgroundImage = 'none'; // Clear the background image
+      }
+    } catch (error) {
+      console.error('Failed to remove Title image from localStorage', error);
+    }
+  };
+
+  // Click handler for "Remove Logo" button for setting page
+  removeTitleImageButton.addEventListener('click', removeTitleImage);
 
   /** Triggers cconfeetti animation until animation is canceled */
   const confettiAnimation = () => {
