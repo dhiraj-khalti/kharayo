@@ -11,8 +11,8 @@ include ../mixins/icons
 
   #lucky-draw
     .title
-      //- Pug loader currently does not handle webpack alias so we will use relative path here
-      include ../assets/images/title.svg
+      //- //- Pug loader currently does not handle webpack alias so we will use relative path here
+
 
     .slot
       .slot__outer
@@ -23,7 +23,7 @@ include ../mixins/icons
       #sunburst.sunburst
         img(src="~@images/sunburst.svg" alt="sunburst")
 
-    button#draw-button.solid-button Draw
+    button#draw-button.solid-button DRAW
 
   #settings.settings
     #settings-panel.settings__panel
@@ -32,6 +32,20 @@ include ../mixins/icons
         div.input-group
           label.input-label(for="name-list") Name List
           textarea.input-field.input-field--textarea(rows="8" placeholder="Separate each name by line break" id="name-list")
+          
+        div.input-group
+        label.input-label(for="background-image") Upload Background Image
+        input.input-field(type="file" id="background-image" accept="image/*")
+        
+        div.settings__panel__group
+        button#remove-background-image.solid-button.solid-button--danger Remove Background Image
+
+        div.input-group
+        label.input-label(for="title-image") Upload Logo
+        input.input-field(type="file" id="title-image" accept="image/*")
+
+        div.settings__panel__group
+        button#remove-title-image.solid-button.solid-button--danger Remove Logo
 
         div.input-group.input-group--2-column
           label.input-label(for="remove-from-list") Remove winner from list
@@ -47,4 +61,3 @@ include ../mixins/icons
       div.settings__panel__group
         button#settings-save.solid-button.solid-button Save
         button#settings-close.solid-button.solid-button--danger Discard and close
-

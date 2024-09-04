@@ -26,9 +26,7 @@ body {
     'Microsoft JhengHei UI', 'Microsoft YaHei', 'Microsoft YaHei UI',
     'PingFang TC', 'Lantinghei TC', 'Heiti TC', 'Apple LiGothic', 'PMingLiU',
     Arial, sans-serif;
-}
 
-#app {
   background: linear-gradient(
     240deg,
     $color-red-step1 0.13%,
@@ -37,6 +35,9 @@ body {
     $color-red-step4 79.08%,
     $color-red-step5 100%
   );
+}
+
+#app {
   color: $color-text-light;
   padding: 0 3.125rem;
   min-height: 100%;
