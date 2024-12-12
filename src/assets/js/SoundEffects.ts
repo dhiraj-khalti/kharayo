@@ -18,7 +18,7 @@ interface SoundSeries {
 
 /** Class for playing sound effects via AudioContext */
 export default class SoundEffects {
-  /** Audio context instancce */
+  /** Audio context instance */
   private audioContext?: AudioContext;
 
   /** Indicator for whether this sound effect instance is muted */
@@ -44,15 +44,18 @@ export default class SoundEffects {
 
   /**
    * Play a sound by providing a list of keys and duration
-   * @param sound  Series of piano keys and it's durarion to play
+   * @param sound  Series of piano keys and its duration to play
    * @param config.type  Oscillator type
    * @param config.easeOut  Whether to ease out to 1% during last 100ms
    * @param config.volume  Volume of the sound to play, value should be between 0.1 and 1
    */
-  private playSound(sound: SoundSeries[], { type = 'sine', easeOut: shouldEaseOut = true, volume = 0.1 }: SoundConfig = {}): void {
+  private playSound(
+    sound: SoundSeries[],
+    { type = 'sine', easeOut: shouldEaseOut = true, volume = 0.1 }: SoundConfig = {}
+  ): void {
     const { audioContext } = this;
 
-    // graceful exit for browsers that don't support AudioContext
+    // Graceful exit for browsers that don't support AudioContext
     if (!audioContext) {
       return;
     }
@@ -64,7 +67,7 @@ export default class SoundEffects {
     gainNode.connect(audioContext.destination);
 
     oscillator.type = type;
-    gainNode.gain.value = volume; // set default volume to 10%
+    gainNode.gain.value = volume; // Set default volume to 10%
 
     const { currentTime: audioCurrentTime } = audioContext;
 
@@ -73,7 +76,7 @@ export default class SoundEffects {
       return currentNoteTime + duration;
     }, 0);
 
-    // ease out to 1% during last 100ms
+    // Ease out to 1% during last 100ms
     if (shouldEaseOut) {
       gainNode.gain.exponentialRampToValueAtTime(volume, audioCurrentTime + totalDuration - 0.1);
       gainNode.gain.exponentialRampToValueAtTime(0.01, audioCurrentTime + totalDuration);
@@ -100,8 +103,7 @@ export default class SoundEffects {
       { key: 'E4', duration: 0.15 },
       { key: 'G4', duration: 0.9 }
     ];
-    const totalDuration = musicNotes
-      .reduce((currentNoteTime, { duration }) => currentNoteTime + duration, 0);
+    const totalDuration = musicNotes.reduce((currentNoteTime, { duration }) => currentNoteTime + duration, 0);
 
     this.playSound(musicNotes, { type: 'triangle', volume: 1, easeOut: true });
 
@@ -117,7 +119,7 @@ export default class SoundEffects {
    * @param durationInSecond  Duration of sound effect in seconds
    * @returns Has sound effect been played
    */
-  public spin(durationInSecond: number): Promise<boolean> {
+  public spin(durationInSecond: number = 5): Promise<boolean> {
     if (this.isMuted) {
       return Promise.resolve(false);
     }
@@ -128,10 +130,10 @@ export default class SoundEffects {
       { key: 'C3', duration: 0.1 }
     ];
 
-    const totalDuration = musicNotes
-      .reduce((currentNoteTime, { duration }) => currentNoteTime + duration, 0);
+    // Adjust the notes to fill the specified duration
+    const totalDuration = durationInSecond; // Set the total sound duration
+    const duration = Math.floor(totalDuration / 0.3); // Each note cycle takes 0.3s (3 notes * 0.1s each)
 
-    const duration = Math.floor(durationInSecond * 10);
     this.playSound(
       Array.from(Array(duration), (_, index) => musicNotes[index % 3]),
       { type: 'triangle', easeOut: false, volume: 2 }
